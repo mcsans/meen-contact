@@ -1,0 +1,65 @@
+<%- include('layouts/header') %>  
+
+<div class="container mt-3">
+    <div class="row">
+        <div class="col-md-8">
+            <h2>Daftar Contact</h2>
+
+            <a href="/contact/add" class="btn btn-sm btn-primary mb-2">Tambah Data</a>
+
+            <% if (msg.length !== 0) { %>
+            <div class="alert alert-success" role="alert"><%= msg %> </div>
+            <% } %>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">No</th>
+                        <th scope="col">Nama</th>
+                        <th scope="col">No HP</th>
+                        <th scope="col">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if (contacts.length === 0) { %>
+                        <tr>
+                            <td colspan="4">
+                                <div class="alert alert-danger fw-bold" role="alert">
+                                    Data contact masih kosong.
+                                </div>
+                            </td>
+                        </tr>
+                    <% } %>
+
+                    <% no=1 %> 
+                    <% contacts.forEach(contact => { %>
+                    <tr>
+                        <th scope="row"><%= no++ %> </th>
+                        <td><%= contact.nama %></td>
+                        <td><%= contact.nohp %></td>
+                        <td>
+                            <!-- DETAIL -->
+                            <a href="/contact/<%= contact.nama %>" class="btn btn-success badge rounded-pills">
+                                <i class="bi bi-info-circle"></i>
+                            </a>
+                            <!-- UPDATE -->
+                            <a href="/contact/edit/<%= contact.nama %>" class="btn btn-warning badge rounded-pills">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                            <!-- DELETE -->
+                            <form action="/contact?_method=DELETE" method="post" class="d-inline">
+                                <input type="hidden" name="nama" value="<%= contact.nama %>">
+                                <button type="submit" class="btn btn-danger badge rounded-pills" onclick="return confirm('yakin?')">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<%- include('layouts/footer') %> 
